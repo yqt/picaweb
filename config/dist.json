@@ -1,0 +1,4 @@
+{
+    "dest": "dist",
+    "staticRoot": "static/<%= grunt.template.today('yyyymmddHHMMss') %>/picaweb"
+}
