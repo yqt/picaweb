@@ -74,7 +74,7 @@ module.exports = function(grunt) {
       },
       index: {
         src: ['src/index.tpl'],
-        dest: '<%= grunt.config.get("dest") %>/template/<%= pkg.name %>/index.tpl'
+        dest: '<%= grunt.config.get("indexDest") %>'
       }
     },
 

@@ -1,4 +1,5 @@
 {
     "dest": "dist",
-    "staticRoot": "static/<%= grunt.template.today('yyyymmddHHMMss') %>/picaweb"
+    "staticRoot": "/static/<%= grunt.template.today('yyyymmddHHMMss') %>/picaweb",
+    "indexDest": "dist/template/<%= pkg.name %>/index.tpl"
 }

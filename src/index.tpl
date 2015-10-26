@@ -32,7 +32,7 @@
         </div>
       </div>
     </nav>
-    <div class="container-fluid" id="main-container"></div>
+    <div class="container-fluid bare" id="main-container"></div>
 </div>
 <script type="text/x-dot-template" id="category-board">
     <div class="row">
@@ -40,7 +40,7 @@
         <div class="col-xs-12 col-sm-6 col-md-3" data-id="{%! item.id %}">
             <a href="#/category/{%! item.id %}/comic/page/{%! item.page || 1 %}" class="block-link">
                 <div class="thumbnail">
-                    <img src="{%! item.cover_image %}" alt="{%! item.name %}" />
+                    <img src="{%! item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
                     <div class="caption">
                         <span>
                             <span class="badge pull-right badge-green">
@@ -62,7 +62,7 @@
         <div class="col-xs-12 col-sm-6 col-md-3" data-id="{%! item.id %}" data-cats="{%! item.cats %}">
             <a href="#/comic/{%! item.id %}/detail" class="block-link">
                 <div class="thumbnail thumbnail-fixed-height">
-                    <img src="{%! item.cover_image %}" alt="{%! item.name %}" />
+                    <img src="{%! item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
                     <div class="caption">
                         <div>
                             {% for(var i = 0; i < item.rank; i++) { %}
@@ -88,7 +88,7 @@
             <div class="media bare">
                 <div class="media-left col-xs-12 col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <img class="media-object" src="{%! it.comic.cover_image %}" alt="{%! it.comic.name %}">
+                        <img class="media-object" src="{%! it.comic.cover_image.replace('http://', 'https://') %}" alt="{%! it.comic.name %}">
                     </div>
                 </div>
                 <div class="media-body col-auto">
@@ -133,9 +133,9 @@
 <script type="text/x-dot-template" id="pic-list">
     <div class="row">
         {%~ it :item:index %}
-        <div class="col-xs-12 col-sm-12 col-md-12">
+        <div class="col-xs-12 col-sm-12 col-md-12 bare">
             <div class="thumbnail bare">
-                <img src="{%! item.url %}" alt="" />
+                <img src="{%! item.url.replace('http://', 'https://') %}" alt="" />
             </div>
         </div>
         {%~%}

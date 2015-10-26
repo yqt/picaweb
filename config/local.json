@@ -1,4 +1,5 @@
 {
     "dest": "src",
-    "staticRoot": "."
+    "staticRoot": ".",
+    "indexDest": "src/index.html"
 }
