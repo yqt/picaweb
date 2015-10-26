@@ -1,3 +1,2 @@
 # picaweb
-
-## A web frontend interface for picacomic
+A web frontend interface for picacomic
