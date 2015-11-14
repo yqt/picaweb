@@ -202,6 +202,13 @@
     });
   });
 
+  $('#https-toggle').on('click pressed', function(e) {
+    e.preventDefault();
+    localStorage.https = localStorage.https || 1;
+    localStorage.https = true == localStorage.https ? 0 : 1;
+    $(e.currentTarget).toggleClass('badge-green');
+  });
+
   /* routes */
   // index
   $.routes.add('/$', 'index', function() {
@@ -244,9 +251,14 @@
     });
   });
 
+  /* kick off & init stuff */
   // for first load with empty hash
   if (null === $.routes.current && '' === location.hash) {
     $.routes.load('#/');
+  }
+
+  if (false == localStorage.https) {
+    $('#https-toggle').removeClass('badge-green');
   }
 
 })();

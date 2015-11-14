@@ -43,6 +43,13 @@
     overflow: hidden;
 }
 
+.picaweb .https-toggle {
+    cursor: pointer;
+    height: 26px;
+    line-height: 20px;
+    margin: 12px 15px;
+}
+
 @media (min-width: 768px) {
     .picaweb .thumbnail-fixed-height > img {
         max-height: 80%;

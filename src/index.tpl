@@ -20,15 +20,16 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
         </button>
+        <span class="https-toggle badge pull-right badge-green" id="https-toggle">HTTPS</span>
         <div class="navbar-header">
-          <a class="navbar-brand" href="#/">PicaWeb</a>
+            <a class="navbar-brand" href="#/">PicaWeb</a>
         </div>
         <div class="collapse navbar-collapse" id="navbar-collapse">
-          <ul class="nav navbar-nav">
-            <li><a href="#/category">Category</a></li>
-            <li><a href="#/search">Search</a></li>
-            <li><a href="#/about">About</a></li>
-          </ul>
+            <ul class="nav navbar-nav">
+                <li><a href="#/category">Category</a></li>
+                <li><a href="#/search">Search</a></li>
+                <li><a href="#/about">About</a></li>
+            </ul>
         </div>
       </div>
     </nav>
@@ -40,7 +41,7 @@
         <div class="col-xs-12 col-sm-6 col-md-3" data-id="{%! item.id %}">
             <a href="#/category/{%! item.id %}/comic/page/{%! item.page || 1 %}" class="block-link">
                 <div class="thumbnail">
-                    <img src="{%! item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
+                    <img src="{%! false == localStorage.https ? item.cover_image : item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
                     <div class="caption">
                         <span>
                             <span class="badge pull-right badge-green">
@@ -62,7 +63,7 @@
         <div class="col-xs-12 col-sm-6 col-md-3" data-id="{%! item.id %}" data-cats="{%! item.cats %}">
             <a href="#/comic/{%! item.id %}/detail" class="block-link">
                 <div class="thumbnail thumbnail-fixed-height">
-                    <img src="{%! item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
+                    <img src="{%! false == localStorage.https ? item.cover_image : item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
                     <div class="caption">
                         <div>
                             {% for(var i = 0; i < item.rank; i++) { %}
@@ -88,7 +89,7 @@
             <div class="media bare">
                 <div class="media-left col-xs-12 col-sm-6 col-md-4">
                     <div class="thumbnail">
-                        <img class="media-object" src="{%! it.comic.cover_image.replace('http://', 'https://') %}" alt="{%! it.comic.name %}">
+                        <img class="media-object" src="{%! false == localStorage.https ? it.comic.cover_image : it.comic.cover_image.replace('http://', 'https://') %}" alt="{%! it.comic.name %}">
                     </div>
                 </div>
                 <div class="media-body col-auto">
@@ -135,7 +136,7 @@
         {%~ it :item:index %}
         <div class="col-xs-12 col-sm-12 col-md-12 bare">
             <div class="thumbnail bare">
-                <img src="{%! item.url.replace('http://', 'https://') %}" alt="" />
+                <img src="{%! false == localStorage.https ? item.url : item.url.replace('http://', 'https://') %}" alt="" />
             </div>
         </div>
         {%~%}
