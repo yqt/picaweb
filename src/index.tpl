@@ -118,7 +118,7 @@
             <div>
                 {% for (var i = 1; i <= it.ep_count; i++) { %}
                 <div class="col-xs-12 col-sm-2 col-md-2" data-ep="{%= i %}">
-                    <a href="#/comic/{%! it.comic.id %}/ep/{%= i %}" class="block-link">
+                    <a href="#/comic/{%! it.comic.id %}/ep/{%= i %}!dir={%! it.comic.img_directory %}&total={%= it.comic.total_page %}" class="block-link">
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
                                 第{%= i %}话
@@ -136,7 +136,7 @@
         {%~ it :item:index %}
         <div class="col-xs-12 col-sm-12 col-md-12 bare">
             <div class="thumbnail bare">
-                <img src="{%! false == localStorage.https ? item.url : item.url.replace('http://', 'https://') %}" alt="" />
+                <img src="{%! false == localStorage.https ? item.url : item.url.replace('http://', 'https://') %}" alt="" data-url="{%! item.alt_url %}" />
             </div>
         </div>
         {%~%}

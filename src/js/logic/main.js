@@ -3,7 +3,8 @@
   var navbarCollapse = null,
     tplFnMap = {},
     mainContainer = $('#main-container'),
-    baseUrl = '/picaweb/api/';
+    baseUrl = '/picaweb/api/',
+    picUrlPrefix = 'http://picacomic.com/assets/comics/';
     apiUrls = {
       getCategories: baseUrl + 'categories',
       getComicDetail: baseUrl + 'comics/{comicId}',
@@ -80,6 +81,21 @@
     mainContainer.html(tplFn(data));
   }
 
+  function getFragParams() {
+    var fragParamString = location.hash.split('!')[1];
+    if (null == fragParamString) {
+      return {}
+    }
+    var params = {},
+      kvStringList = fragParamString.split('&'),
+      i = 0;
+    for (;i < kvStringList.length; i++) {
+      var kvList = kvStringList[i].split('=');
+      params[kvList[0]] = kvList[1];
+    }
+    return params;
+  }
+
   /* logics */
   function getCategories(callback) {
     get(apiUrls.getCategories, null, function(data) {
@@ -132,7 +148,18 @@
     });
   }
 
-  function getEpisode(comicId, episode, callback) {
+  function getEpisode(comicId, episode, dir, total, callback) {
+    if (dir && total) {
+      var picList = [];
+      for (var i = 1; i <= total; i++) {
+        picList.push({
+          url: picUrlPrefix + dir + '/' + episode + '/' + i + '.jpg',
+          alt_url: i < 10 ? picUrlPrefix + dir + '/' + episode + '/0' + i + '.jpg' : null
+        });
+      }
+      callback && callback(picList);
+      return;
+    }
     get(apiUrls.getEpisode, {comicId: comicId, episode: episode}, function(data) {
       // TODO: render comic pic list
       console.log(data);
@@ -209,6 +236,10 @@
     $(e.currentTarget).toggleClass('badge-green');
   });
 
+  $('#main-container').on('error', 'img', function(e) {
+    console.log(e);
+  });
+
   /* routes */
   // index
   $.routes.add('/$', 'index', function() {
@@ -244,10 +275,15 @@
 
   // comic pic list
   $.routes.add('/comic/{id:int}/ep/{ep:int}', 'comicPicList', function() {
-    console.log(this.id);
-    console.log(this.ep);
-    getEpisode(this.id, this.ep, function(data) {
+    console.log(this);
+    var fragParams = getFragParams();
+    getEpisode(this.id, this.ep, fragParams.dir, fragParams.total, function(data) {
       renderContent(data, 'pic-list');
+      // NOTE: hotfix for uncertain leading-zero
+      $('img').on('error', function(e) {
+        var ele = $(e.target);
+        ele.prop('src', ele.data('url'));
+      });
     });
   });
 
