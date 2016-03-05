@@ -50,6 +50,17 @@
     margin: 12px 15px;
 }
 
+.picaweb .next-page-loader {
+    display: none;
+    padding: 10px;
+    margin-bottom: 20%;
+}
+
+.picaweb .prev-page-loader {
+    display: none;
+    padding: 20px 0;
+}
+
 @media (min-width: 768px) {
     .picaweb .thumbnail-fixed-height > img {
         max-height: 80%;

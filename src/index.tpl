@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container-fluid picaweb">
+    <div class="prev-page-loader text-center" id="prev-page-loader"><i class="glyphicon glyphicon-arrow-down"></i> load prev</div>
     <nav class="navbar navbar-default" role="navigation">
       <div class="container-fluid">
         <button type="button" class="navbar-toggle collapsed" id="navbar-toggle">
@@ -34,12 +35,13 @@
       </div>
     </nav>
     <div class="container-fluid bare" id="main-container"></div>
+    <div class="next-page-loader text-center" id="next-page-loader"><i class="glyphicon glyphicon-arrow-up"></i> load next</div>
 </div>
 <script type="text/x-dot-template" id="category-board">
     <div class="row">
         {%~ it :item:index %}
         <div class="col-xs-12 col-sm-6 col-md-3" data-id="{%! item.id %}">
-            <a href="#/category/{%! item.id %}/comic/page/{%! item.page || 1 %}" class="block-link">
+            <a href="#/category/{%! item.id %}/comic/page/{%! item.page || 1 %}!total={%= Math.ceil(item.all_comics / 20) %}" class="block-link">
                 <div class="thumbnail">
                     <img src="{%! false == localStorage.https ? item.cover_image : item.cover_image.replace('http://', 'https://') %}" alt="{%! item.name %}" />
                     <div class="caption">
@@ -118,7 +120,7 @@
             <div>
                 {% for (var i = 1; i <= it.ep_count; i++) { %}
                 <div class="col-xs-12 col-sm-2 col-md-2" data-ep="{%= i %}">
-                    <a href="#/comic/{%! it.comic.id %}/ep/{%= i %}!dir={%! it.comic.img_directory %}&total={%= it.comic.total_page %}" class="block-link">
+                    <a href="#/comic/{%! it.comic.id %}/ep/{%= i %}!dir={%! it.comic.img_directory %}&pageCount={%= it.comic.total_page %}&total={%! it.ep_count %}" class="block-link">
                         <div class="panel panel-default">
                             <div class="panel-body text-center">
                                 第{%= i %}话

@@ -148,10 +148,10 @@
     });
   }
 
-  function getEpisode(comicId, episode, dir, total, callback) {
-    if (dir && total) {
+  function getEpisode(comicId, episode, dir, pageCount, total, callback) {
+    if (dir && total && 1 == total) {
       var picList = [];
-      for (var i = 1; i <= total; i++) {
+      for (var i = 1; i <= pageCount; i++) {
         picList.push({
           url: picUrlPrefix + dir + '/' + episode + '/' + i + '.jpg',
           alt_url: i < 10 ? picUrlPrefix + dir + '/' + episode + '/0' + i + '.jpg' : null
@@ -240,6 +240,55 @@
     console.log(e);
   });
 
+  // NOTE: load next/prev page
+  // TOOD: handle touch event
+  var $window = $(window),
+    $document = $(document),
+    $prevPageLoader = $('#prev-page-loader'),
+    $nextPageLoader = $('#next-page-loader');
+  $window.scroll(function() {
+    var hash = location.hash.split('!'),
+      fragParamString = hash[1],
+      windowScrollTop,
+      matches,
+      fragParams,
+      currnetPage;
+    hash = hash[0];
+    matches = hash.match(/^(.*?\/)(\d+)$/);
+    if (!matches) {
+      return;
+    }
+    windowScrollTop = $window.scrollTop();
+    if (windowScrollTop + $window.height() == $document.height()) {
+      if ($nextPageLoader.is(':visible')) {
+        fragParams = getFragParams();
+        currnetPage = parseInt(matches[2], 10);
+        if (fragParams.total == currnetPage) {
+          return;
+        }
+        location.hash = matches[1] + (currnetPage + 1) + '!' + (fragParamString ? fragParamString : '');
+        $nextPageLoader.hide();
+        $('html, body').animate({scrollTop: '1px'}, 500, 'swing');
+      } else {
+        $nextPageLoader.show();
+      }
+    }
+    if (0 == windowScrollTop) {
+      if ($prevPageLoader.is(':visible')) {
+        currnetPage = parseInt(matches[2], 10);
+        if (currnetPage == 1) {
+          return;
+        }
+        location.hash = matches[1] + (currnetPage - 1) + '!' + (fragParamString ? fragParamString : '');
+        $prevPageLoader.hide();
+      } else {
+        $prevPageLoader.show();
+        $window.scrollTop(1);
+      }
+      
+    }
+  });
+
   /* routes */
   // index
   $.routes.add('/$', 'index', function() {
@@ -277,12 +326,16 @@
   $.routes.add('/comic/{id:int}/ep/{ep:int}', 'comicPicList', function() {
     console.log(this);
     var fragParams = getFragParams();
-    getEpisode(this.id, this.ep, fragParams.dir, fragParams.total, function(data) {
+    getEpisode(this.id, this.ep, fragParams.dir, fragParams.pageCount, fragParams.total, function(data) {
       renderContent(data, 'pic-list');
       // NOTE: hotfix for uncertain leading-zero
       $('img').on('error', function(e) {
-        var ele = $(e.target);
-        ele.prop('src', ele.data('url'));
+        var ele = $(e.target),
+          altUrl = ele.data('url'),
+          currentUrl = ele.prop('src');
+        if (altUrl && altUrl != currentUrl) {
+          ele.prop('src', altUrl);
+        }
       });
     });
   });
