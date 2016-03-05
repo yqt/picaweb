@@ -77,4 +77,7 @@
     .picaweb .thumbnail-fixed-height {
         height: 30em;
     }
+    .picaweb .next-page-loader {
+        margin-bottom: 10%;
+    }
 }
